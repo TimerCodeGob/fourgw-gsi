@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Example | Terrain FourGw Terrain |<title>
+<style>
+  body { margin:0; overflow:hidden; }
+  canvas { display:block; }
+</style>
+</head>
+<body>
+
+<!-- Tu raw personalizado -->
+<script src="https://raw.githubusercontent.com/TimerCodeGob/four.gw/main/four-earth/four.js"></script>
+
+<script>
+// Escena
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x87ceeb);
+
+// Cámara
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+camera.position.set(0, 60, 120);
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Luz
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(50, 100, 50);
+scene.add(light);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+// Geometría del terreno
+const geometry = new THREE.PlaneGeometry(300, 300, 256, 256);
+geometry.rotateX(-Math.PI / 2);
+
+// Crear montañas modificando vértices
+for (let i = 0; i < geometry.attributes.position.count; i++) {
+  const y = Math.sin(i * 0.3) * 10 +
+            Math.cos(i * 0.5) * 5 +
+            Math.random() * 2;
+  geometry.attributes.position.setY(i, y);
+}
+geometry.computeVertexNormals();
+
+// Textura tipo tierra
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load(
+  "https://threejs.org/examples/textures/terrain/grasslight-big.jpg"
+);
+texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.set(20,20);
+
+const material = new THREE.MeshStandardMaterial({
+  map: texture
+});
+
+const terrain = new THREE.Mesh(geometry, material);
+scene.add(terrain);
+
+// Animación
+function animate(){
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+</body>
+</html>
