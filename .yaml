@@ -1,0 +1,88 @@
+document:
+  type: html
+  lang: es
+
+head:
+  meta:
+    charset: UTF-8
+  title: Terreno Montañoso Four
+  style:
+    body:
+      margin: 0
+      overflow: hidden
+    canvas:
+      display: block
+
+body:
+  scripts:
+    - src: https://raw.githubusercontent.com/TimerCodeGob/four.gw/main/four-earth/four.js
+
+scene:
+  background: 0x87ceeb
+
+camera:
+  type: PerspectiveCamera
+  fov: 75
+  aspect: window.innerWidth / window.innerHeight
+  near: 0.1
+  far: 1000
+  position:
+    x: 0
+    y: 60
+    z: 120
+
+renderer:
+  type: WebGLRenderer
+  antialias: true
+  size:
+    width: window.innerWidth
+    height: window.innerHeight
+
+lights:
+  - type: DirectionalLight
+    color: 0xffffff
+    intensity: 1
+    position:
+      x: 50
+      y: 100
+      z: 50
+
+  - type: AmbientLight
+    color: 0xffffff
+    intensity: 0.4
+
+terrain:
+  geometry:
+    type: PlaneGeometry
+    width: 300
+    height: 300
+    segments:
+      width: 256
+      height: 256
+    rotationX: -Math.PI / 2
+    vertex_modification:
+      formula: >
+        Math.sin(i * 0.3) * 10 +
+        Math.cos(i * 0.5) * 5 +
+        Math.random() * 2
+
+  texture:
+    url: https://threejs.org/examples/textures/terrain/grasslight-big.jpg
+    wrap: RepeatWrapping
+    repeat:
+      x: 20
+      y: 20
+
+  material:
+    type: MeshStandardMaterial
+    map: texture
+
+animation:
+  loop: requestAnimationFrame
+  render: renderer.render(scene, camera)
+
+events:
+  resize:
+    update_camera_aspect: true
+    update_projection_matrix: true
+    update_renderer_size: true
