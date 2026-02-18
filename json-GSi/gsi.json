@@ -1,0 +1,87 @@
+{
+  "document": {
+    "type": "html",
+    "lang": "es",
+    "head": {
+      "meta": {
+        "charset": "UTF-8"
+      },
+      "title": "Terreno Montañoso Four",
+      "style": {
+        "body": {
+          "margin": "0",
+          "overflow": "hidden"
+        },
+        "canvas": {
+          "display": "block"
+        }
+      }
+    },
+    "body": {
+      "scripts": [
+        {
+          "src": "https://raw.githubusercontent.com/TimerCodeGob/four.gw/main/four-earth/four.js"
+        },
+        {
+          "type": "inline",
+          "content": {
+            "scene": {
+              "background": "0x87ceeb"
+            },
+            "camera": {
+              "type": "PerspectiveCamera",
+              "fov": 75,
+              "aspect": "window.innerWidth / window.innerHeight",
+              "near": 0.1,
+              "far": 1000,
+              "position": [0, 60, 120]
+            },
+            "renderer": {
+              "antialias": true,
+              "size": ["window.innerWidth", "window.innerHeight"]
+            },
+            "lights": [
+              {
+                "type": "DirectionalLight",
+                "color": "0xffffff",
+                "intensity": 1,
+                "position": [50, 100, 50]
+              },
+              {
+                "type": "AmbientLight",
+                "color": "0xffffff",
+                "intensity": 0.4
+              }
+            ],
+            "terrain": {
+              "geometry": {
+                "type": "PlaneGeometry",
+                "width": 300,
+                "height": 300,
+                "segments": [256, 256],
+                "rotationX": "-Math.PI / 2",
+                "vertexModification": {
+                  "formula": "Math.sin(i * 0.3) * 10 + Math.cos(i * 0.5) * 5 + Math.random() * 2"
+                }
+              },
+              "texture": {
+                "url": "https://threejs.org/examples/textures/terrain/grasslight-big.jpg",
+                "wrap": "RepeatWrapping",
+                "repeat": [20, 20]
+              },
+              "material": {
+                "type": "MeshStandardMaterial",
+                "map": "texture"
+              }
+            },
+            "animation": {
+              "loop": "requestAnimationFrame",
+              "render": ["scene", "camera"]
+            },
+            "resizeHandler": true
+          }
+        }
+      ]
+    }
+  }
+}
