@@ -1,0 +1,85 @@
+# Documento
+[document]
+type = "html"
+lang = "es"
+
+[head.meta]
+charset = "UTF-8"
+
+[head]
+title = "Terreno Montañoso Four"
+
+[head.style.body]
+margin = 0
+overflow = "hidden"
+
+[head.style.canvas]
+display = "block"
+
+# Script externo
+[[body.scripts]]
+src = "https://raw.githubusercontent.com/TimerCodeGob/four.gw/main/four-earth/four.js"
+
+# Escena
+[scene]
+background = "0x87ceeb"
+
+# Cámara
+[camera]
+type = "PerspectiveCamera"
+fov = 75
+aspect = "window.innerWidth / window.innerHeight"
+near = 0.1
+far = 1000
+position = [0, 60, 120]
+
+# Renderer
+[renderer]
+type = "WebGLRenderer"
+antialias = true
+size = ["window.innerWidth", "window.innerHeight"]
+
+# Luces
+[[lights]]
+type = "DirectionalLight"
+color = "0xffffff"
+intensity = 1
+position = [50, 100, 50]
+
+[[lights]]
+type = "AmbientLight"
+color = "0xffffff"
+intensity = 0.4
+
+# Terreno
+[terrain.geometry]
+type = "PlaneGeometry"
+width = 300
+height = 300
+segments = [256, 256]
+rotationX = "-Math.PI / 2"
+vertex_formula = """
+Math.sin(i * 0.3) * 10 +
+Math.cos(i * 0.5) * 5 +
+Math.random() * 2
+"""
+
+[terrain.texture]
+url = "https://threejs.org/examples/textures/terrain/grasslight-big.jpg"
+wrap = "RepeatWrapping"
+repeat = [20, 20]
+
+[terrain.material]
+type = "MeshStandardMaterial"
+map = "texture"
+
+# Animación
+[animation]
+loop = "requestAnimationFrame"
+render = "renderer.render(scene, camera)"
+
+# Eventos
+[events.resize]
+update_camera_aspect = true
+update_projection_matrix = true
+update_renderer_size = true
