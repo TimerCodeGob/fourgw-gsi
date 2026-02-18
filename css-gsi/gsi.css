@@ -5,6 +5,10 @@ body {
   background-color: #87ceeb; /* Cielo */
 }
 
+.JSON{
+  margin: 14;
+}
+
 /* Canvas ocupa toda la pantalla */
 canvas {
   display: block;
